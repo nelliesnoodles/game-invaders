@@ -122,7 +122,7 @@ main {
     align-items: center;
     justify-content: space-between;
     background-size: contain;
-    background: url('images/matrix.JPG');
+    background: url('images/matrix.jpg');
     background-attachment: fixed;
     background-position: center;
     z-index: 1;
