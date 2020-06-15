@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Scripts, Javascript, CSS-->
+    <script type="text/javascript" src="css2.js"></script>
+    <link rel="stylesheet" href="css2.css" />
+    <!--- FONT AWESOME image icons-->
+    <script src="https://kit.fontawesome.com/b570a31fd0.js"></script>
+    <link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free.min.css" media="all">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:wght@300&display=swap" rel="stylesheet">
+
+    <title>Space attack</title>
+</head>
+<body>
+
+    <header>
+        <h1 id="title">Critical Space Strike</h1>
+    </header>
+    <div id="lives">
+        <button id="new_game">NEW</button>
+        <h1 id="Score" class="bit_type">0000</h1>
+        <div id="life"><i class="fas fa-medkit fa-2x"></i><i class="fas fa-medkit fa-2x"></i><i class="fas fa-medkit fa-2x"></i></div>
+    </div>
+    <main>
+        <div class="screen">
+
+
+
+            <canvas id="myCanvas">
+            </canvas>
+
+
+
+        </div>
+        <div id="mobile_buttons">
+            <button id="pause" label="pause game"><i class="far fa-pause-circle" id="pause_image"></i></button>
+            <button class="move" onclick="move_left()">left</button>
+            <button class="move" id="up_button" onclick="move_up()">up</button>
+            <button class="move" onclick="move_down()">down</button>
+            <button class="move" onclick="move_right()">right</button>
+
+
+        </div>
+    </main>
+
+
+</body>
+</html>

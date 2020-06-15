@@ -1,0 +1,247 @@
+﻿body {
+    background: black;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding: 0;
+    margin: 0;
+    font-family: 'MuseoModerno', cursive;
+}
+
+header {
+    background: #136e53;
+    color: white;
+    text-shadow: 1px 1px black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 4ch;
+    width: 100vw;
+    position: absolute;
+    padding-bottom: 1ch;
+    z-index: 3;
+}
+
+#title {
+    font-size: medium;
+    text-align: center;
+    font-size: 2em;
+}
+
+#lives {
+    font-family: 'Major Mono Display', monospace;
+    background: #ea85542e;
+    color: #e5fbe8;
+    text-shadow: 1px 1px silver;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 3ch;
+    width: 100%;
+    position: absolute;
+    margin-top: 13vh;
+    padding-bottom: 1ch;
+    z-index: 3;
+    padding: 5px;
+    box-shadow: -2px -2px 10px #0bad96ab;
+}
+
+#Score {
+    font-family: inherit;
+    letter-spacing: 2px;
+}
+
+/* BUTTONS */
+#new_game {
+    border: 2px solid hotpink;
+    background: transparent;
+    color: #f7f3f3;
+    border-radius: 10%;
+    margin-left: 1ch;
+    font-family: monospace;
+    font-size: 2em;
+}
+
+#pause {
+    border: 2px solid hotpink;
+    background: transparent;
+    color: #f7f3f3;
+    border-radius: 10%;
+    margin-left: 1ch;
+    font-family: monospace;
+    font-size: 2em;
+}
+
+#life {
+    display: flex;
+    background: transparent;
+}
+
+button {
+    border: 2px solid aqua;
+    background: black;
+    color: silver;
+    border-radius: 30%;
+    margin-right: 3ch;
+    font-family: monospace;
+    padding: 10px;
+}
+
+i {
+    color: hotpink;
+    border-color: brown;
+    padding: 5px;
+}
+
+/* END */
+h1 {
+    text-align: center;
+    width: 100vw;
+    padding: 10px;
+    font-size: 3em;
+}
+
+.small-font {
+    font-size: 1em;
+}
+
+main {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 1;
+    align-content: center;
+    justify-content: center;
+    margin-top: 6vh;
+}
+
+.screen {
+    width: inherit;
+    display: flex;
+    height: 100vh;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+    background-size: contain;
+    background: url('images/matrix.JPG');
+    background-attachment: fixed;
+    background-position: center;
+    z-index: 1;
+}
+
+canvas {
+    border: 1px solid silver;
+    width: 100%;
+    height: 80vh;
+    background: rgba(59, 78, 175, 0.3);
+    border-right: 10px solid #72fd0959;
+    border-left: 10px solid #72fd0959;
+    padding-top: 5vh;
+    border-bottom: 8px solid #72fd0959;
+}
+
+#mobile_buttons {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 5;
+    margin-top: -15vh;
+    width: inherit;
+}
+
+#pause_image{
+    color: white;
+    border-color: aqua;
+}
+
+/* GAME OBJECTS */
+.laser {
+    width: 5px;
+    height: 8px;
+    color: red;
+    background: red;
+    border: 2px solid aqua;
+}
+
+#up_button {
+    padding-right: 1ch;
+    padding-left: 1ch;
+}
+
+@media all and (max-width: 799px) and (min-width: 220px) {
+    main {
+        margin-top: 30px;
+    }
+
+    canvas {
+        margin-top: -10vh;
+    }
+
+    .screen {
+        padding-top: 0;
+    }
+
+    #title {
+        font-size: small;
+    }
+
+    #lives {
+        margin-top: 6vh;
+        width: 100%;
+        margin-left: 0;
+    }
+
+    h1 {
+        margin: 0;
+    }
+
+    header {
+        padding: 0;
+        margin: 0;
+        border: none;
+        border-bottom: 2px solid red;
+    }
+
+    #mobile_buttons {
+        margin-top: -18vh;
+    }
+
+    button {
+        padding: 0;
+    }
+
+    #mobile_buttons {
+        padding: none;
+    }
+}
+
+@media screen and (max-width: 799px) and (min-width: 220px) and (orientation: landscape) {
+    main {
+        margin-top: 2ch;
+        width: 100vw;
+    }
+
+    .screen {
+        margin-top: 1ch;
+        height: 85%;
+    }
+
+    .move {
+        font-size: small;
+        padding: 3px;
+        border-radius: 0;
+    }
+
+    header {
+        display: none;
+    }
+
+    #title {
+        display: none;
+    }
+
+    #lives {
+        margin-top: 0;
+    }
+
+}
