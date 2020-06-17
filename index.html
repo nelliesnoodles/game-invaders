@@ -18,10 +18,13 @@
 <body>
 
     <header>
+        <button id="new_game" class="title_button">NEW</button>
         <h1 id="title">Critical Space Strike</h1>
+          <button id="pause" class="title_button" label="pause game"><i class="far fa-pause-circle" id="pause_image"></i></button>
+          <button id="play" class="title_button" label="play or resume game"><i class="far fa-play-circle"></i></button>
     </header>
     <div id="lives">
-        <button id="new_game">NEW</button>
+
         <h1 id="Score" class="bit_type">0000</h1>
         <div id="life"><i class="fas fa-medkit fa-2x"></i><i class="fas fa-medkit fa-2x"></i><i class="fas fa-medkit fa-2x"></i></div>
     </div>
@@ -37,7 +40,7 @@
 
         </div>
         <div id="mobile_buttons">
-            <button id="pause" label="pause game"><i class="far fa-pause-circle" id="pause_image"></i></button>
+
             <button class="move" onclick="move_left()">left</button>
             <button class="move" id="up_button" onclick="move_up()">up</button>
             <button class="move" onclick="move_down()">down</button>

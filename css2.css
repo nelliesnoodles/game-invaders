@@ -13,7 +13,7 @@ header {
     text-shadow: 1px 1px black;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+   /* removed justify to push buttons to outside of title*/
     height: 4ch;
     width: 100vw;
     position: absolute;
@@ -25,11 +25,11 @@ header {
     font-size: medium;
     text-align: center;
     font-size: 2em;
+    width: 100%;
 }
 
 #lives {
     font-family: 'Major Mono Display', monospace;
-    background: #ea85542e;
     color: #e5fbe8;
     text-shadow: 1px 1px silver;
     display: flex;
@@ -52,23 +52,33 @@ header {
 
 /* BUTTONS */
 #new_game {
-    border: 2px solid hotpink;
-    background: transparent;
-    color: #f7f3f3;
-    border-radius: 10%;
-    margin-left: 1ch;
-    font-family: monospace;
+
     font-size: 2em;
 }
 
 #pause {
-    border: 2px solid hotpink;
+
     background: transparent;
-    color: #f7f3f3;
-    border-radius: 10%;
-    margin-left: 1ch;
-    font-family: monospace;
-    font-size: 2em;
+
+}
+
+#play {
+
+  background: transparent;
+
+
+}
+
+.title_button {
+  border: 2px solid hotpink;
+  background: transparent;
+  color: #f7f3f3;
+  border-radius: 10%;
+  margin-left: 1ch;
+  font-family: monospace;
+  font-size: 2em;
+  padding: 0;
+  margin: 2px;
 }
 
 #life {
@@ -95,7 +105,7 @@ i {
 /* END */
 h1 {
     text-align: center;
-    width: 100vw;
+
     padding: 10px;
     font-size: 3em;
 }
@@ -111,7 +121,7 @@ main {
     z-index: 1;
     align-content: center;
     justify-content: center;
-    margin-top: 6vh;
+    margin-top: 8vh;
 }
 
 .screen {
@@ -129,10 +139,11 @@ main {
 }
 
 canvas {
+    margin-top: 28vh;
     border: 1px solid silver;
     width: 100%;
     height: 80vh;
-    background: rgba(59, 78, 175, 0.3);
+    background: #ea85542e;
     border-right: 10px solid #72fd0959;
     border-left: 10px solid #72fd0959;
     padding-top: 5vh;
