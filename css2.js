@@ -1,7 +1,7 @@
 // JavaScript source code
 /*  For Chingu solo project Tier 2
- * 
- * 
+ *
+ *
  */
 //----------- game objects ---------//
 
@@ -17,6 +17,7 @@ let max_right;
 let max_left;
 let max_up;
 let max_down;
+const enemy_speed = 1;
 var current_player_x;
 var current_player_y;
 /* Enemy arrays for movement/image placement */
@@ -52,11 +53,15 @@ function set_DOM() {
         third_wave[new_enemy] = []
 
     }
+    //stackoverflow link: https://stackoverflow.com/questions/21139826/requestanimationframe-method-is-not-working
+    window.requestAnimationFrame =
+           window.requestAnimationFrame ||
+           window.mozRequestAnimationFrame ||
+           window.webkitRequestAnimationFrame ||
+           window.msRequestAnimationFrame;
 
 
 }
-
-
 
 
 
@@ -115,7 +120,7 @@ function draw_enemy1() {
 
 
 
-    clear_screen_first_wave()
+    //clear_screen_first_wave()
     enemy.onload = () => {
         for (var item in first_wave) {
 
@@ -123,6 +128,7 @@ function draw_enemy1() {
             var x = coordinates[0]
             var y = coordinates[1]
             ctx.drawImage(enemy, x, y, w, h)
+            //window.requestAnimationFrame(draw_enemy1)
 
 
         };
@@ -139,7 +145,7 @@ function draw_enemy2() {
 
 
 
-    clear_screen_second_wave()
+    //clear_screen_second_wave()
     enemy2.onload = () => {
         for (var item in second_wave) {
             var coordinates = second_wave[item]
@@ -148,7 +154,9 @@ function draw_enemy2() {
             var y = coordinates[1]
 
             ctx.drawImage(enemy2, x, y, w, h)
-            x += 45
+            //window.requestAnimationFrame(draw_enemy2)
+            //x += 45
+
 
         };
     }
@@ -164,7 +172,7 @@ function draw_enemy3() {
 
 
 
-    clear_screen_third_wave()
+    //clear_screen_third_wave()
     enemy3.onload = () => {
         for (var item in third_wave) {
             var coordinates = third_wave[item]
@@ -172,7 +180,8 @@ function draw_enemy3() {
             var y = coordinates[1]
 
             ctx.drawImage(enemy3, x, y, w, h)
-            x += 45
+            //window.requestAnimationFrame(draw_enemy3)
+            //x += 45
 
         };
     }
@@ -180,7 +189,7 @@ function draw_enemy3() {
 /*  -----Player tile ----*/
 
 function draw_ship() {
-    clear_screen_ship()
+    //clear_screen_ship()
     my_canvas = document.getElementById("myCanvas")
     ctx = my_canvas.getContext("2d")
     ship_image = new Image()
@@ -191,6 +200,7 @@ function draw_ship() {
     let h = tile_height;
     ship_image.onload = () => {
         ctx.drawImage(ship_image, x, y, w, h);
+        //window.requestAnimationFrame(draw_ship)
     }
 
 }
@@ -200,28 +210,28 @@ function draw_ship() {
 function clear_screen_ship() {
     var y = max_up - tile_height / 2
 
-    ctx.clearRect(0, max_up, my_canvas.width, my_canvas.height);
+    //ctx.clearRect(0, max_up, my_canvas.width, my_canvas.height);
 }
 
 /*   ---------  Clear screen for enemy ----- */
 function clear_screen_first_wave() {
-    
+
     var y = first_wave['new_enemy0'][1] + enemy_tile_h
 
-    ctx.clearRect(0, 0, my_canvas.width, y);
+    //ctx.clearRect(0, 0, my_canvas.width, y);
 }
 
 function clear_screen_second_wave() {
     var y1 = first_wave['new_enemy0'][1] + enemy_tile_h
     var y2 = second_wave['new_enemy0'][1]
-    ctx.clearRect(0, y1, my_canvas.width, y2)
+    //ctx.clearRect(0, y1, my_canvas.width, y2)
 
 }
 
 function clear_screen_third_wave() {
     var y1 = second_wave['new_enemy0'][1] + enemy_tile_h
     var y2 = third_wave['new_enemy0'][1] - enemy_tile_h
-    ctx.clearRect(0, y1, my_canvas.width, y2)
+    //ctx.clearRect(0, y1, my_canvas.width, y2)
 }
 
 /*  --- player movement ---- */
@@ -232,14 +242,14 @@ function move_up() {
         current_player_y -= 5;
 
     }
-    update_game()
+    //update_game()
 }
 
 function move_down() {
     if (current_player_y < max_down) {
         current_player_y += 5
     }
-    update_game()
+  //  update_game()
 }
 
 function move_right() {
@@ -247,14 +257,14 @@ function move_right() {
     if (current_player_x < max_right) {
         current_player_x += 5
     }
-    update_game()
+  //  update_game()
 }
 
 function move_left() {
     if (current_player_x > max_left) {
         current_player_x -= 5;
     }
-    update_game()
+  //  update_game()
 }
 
 
@@ -274,9 +284,9 @@ function draw_laser() {
 
 class Collision {
     /*
-     * item_x, item_y  
+     * item_x, item_y
      * item2_x, item2_y
-     * Check if the coordinates are within range of each other, or collide     * 
+     * Check if the coordinates are within range of each other, or collide     *
      */
     constructor(item_x, item_y, item2_x, item2_y) {
         this.item_x = item_x
@@ -309,13 +319,13 @@ class Collision {
 
 /*  ----- Enemy Movement ----*/
 function alter_first_wave() {
-   
+
     /*
     * The enemy will only move slightly left and right, horizontally across the
     * game board.
     */
     var spacing = (enemy_tile_w * 2)
-    let speed = 15
+    //let speed = 15
     //copied from the set_enemy_arrays() function:
     let center = my_canvas.width / 2
     let first_offset = center - spacing * 2
@@ -346,18 +356,18 @@ function alter_first_wave() {
 
     for (item in first_wave) {
         x_coordinate = first_wave[item]
-        x_coordinate[0] += direction_first * speed
+        x_coordinate[0] += direction_first * enemy_speed
     };
 
-    draw_enemy1()
+    //draw_enemy1()
 
 
 }
 
 function alter_second_wave() {
-   
+
     var spacing = (enemy_tile_w * 2)
-    let speed = 15
+    //let speed = 15
 
     let center = my_canvas.width / 2
     let first_offset = center - spacing * 2
@@ -387,10 +397,10 @@ function alter_second_wave() {
 
     for (item in second_wave) {
         x_coordinate = second_wave[item]
-        x_coordinate[0] += direction_second * speed
+        x_coordinate[0] += direction_second * enemy_speed
     };
 
-    draw_enemy2()
+    //draw_enemy2()
 
 }
 
@@ -401,7 +411,7 @@ function alter_third_wave() {
      * But these ones will shoot lasers.
    */
     var spacing = (enemy_tile_w * 2)
-    let speed = 15
+    //let speed = 15
 
     let center = my_canvas.width / 2
     let first_offset = center - spacing * 2
@@ -431,40 +441,53 @@ function alter_third_wave() {
 
     for (item in third_wave) {
         x_coordinate = third_wave[item]
-        x_coordinate[0] += direction_third * speed
+        x_coordinate[0] += direction_third * enemy_speed
     };
 
-    draw_enemy3()
+    //draw_enemy3()
 
+}
+
+function clear_loop(){
+  ctx.fillStyle = 'black';
+  ctx.clearRect(0, 0, my_canvas.width, my_canvas.height);
+  ctx.fillRect(0, 0, my_canvas.width, my_canvas.height);
 }
 
 function move_virus() {
-    setInterval(alter_first_wave, 1000)
-    setInterval(alter_second_wave, 1100)
-    setInterval(alter_third_wave, 800)
+    //setInterval(alter_first_wave, 1000)
+    //setInterval(alter_second_wave, 1100)
+    //setInterval(alter_third_wave, 800)
+    alter_first_wave()
+    alter_second_wave()
+    alter_third_wave()
 }
 
 function update_enemy() {
+
     draw_enemy1()
     draw_enemy2()
     draw_enemy3()
 
-
-
 }
 
 function update_game() {
+    clear_loop()
     draw_ship()
+    move_virus()
+    update_enemy()
+
 
 }
 
 //--- RUN GAME ----------//
 function run_game() {
     set_DOM()
-    update_game()
     set_enemy_arrays()
-    update_enemy()
-    move_virus()
+    setInterval(update_game, 500)
+
+
+
     //test_enemy_arrays()
 
 }
@@ -554,7 +577,7 @@ function set_EventListeners() {
     //start button
     //pause button
     //stop button
-   
+
     document.addEventListener('keydown', checkKey);
     window.addEventListener('resize', checksize);
 
@@ -569,6 +592,3 @@ window.addEventListener('load', (event) => {
     set_EventListeners()
     run_game()
 });
-
-
-
