@@ -232,7 +232,7 @@ function draw_enemy2() {
 
             var collide = check_collision(x, y)
             if(!collide){
-            ctx.drawImage(enemy, x, y, w, h)
+            ctx.drawImage(enemy2, x, y, w, h)
             //window.requestAnimationFrame(draw_enemy1)
             }
             else{
@@ -277,7 +277,7 @@ function draw_enemy3() {
 
             var collide = check_collision(x, y)
             if(!collide){
-            ctx.drawImage(enemy, x, y, w, h)
+            ctx.drawImage(enemy3, x, y, w, h)
             //window.requestAnimationFrame(draw_enemy1)
             }
             else{
