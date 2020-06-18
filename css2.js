@@ -118,7 +118,7 @@ function set_enemy_arrays() {
 
 function update_score(){
   let element = document.getElementById("Score")
-  score += 42
+  score += 420
   element.innerHTML = score
 
 }
