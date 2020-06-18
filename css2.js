@@ -28,6 +28,12 @@ var third_wave = {};
 var direction_first = 1
 var direction_second = -1
 var direction_third = 1
+/* potions, or attack method items */
+let potions = []
+let GAME;
+let PAUSED = false;
+var score = 0
+
 
 
 //-------- Set up functions ----------
@@ -110,11 +116,68 @@ function set_enemy_arrays() {
 
 }
 
+function update_score(){
+  let element = document.getElementById("Score")
+  score += 42
+  element.innerHTML = score
+
+}
+
+function isEmpty(obj){
+  var alist = Object.keys(obj)
+  if(alist.length > 0){
+    return false
+  }
+  return true
+}
+
+function win(){
+  let element_hidden = document.getElementById("hidden")
+  let element_main = document.getElementById("main")
+  element_hidden.style.display = 'flex';
+  element_main.style.display = 'none';
+
+}
+
+function check_win(){
+  let first = isEmpty(first_wave)
+  let second = isEmpty(second_wave)
+  let third = isEmpty(third_wave)
+  //console.log(`empty arrays: ${first} , ${second}, ${third}`)
+
+  if(first && second && third){
+    win()
+
+  }
+}
+
+function check_collision(enemy_x, enemy_y){
+  let size = potions.length
+  for(var i = 0; i < size; i++){
+    let potion = potions[i]
+    let potion_x = potion[0]
+    let potion_y = potion[1]
+    let collision = new Collision(enemy_x, enemy_y, potion_x, potion_y)
+    collision.set_range(10, 10)
+    if(collision.check_collide_y() && collision.check_collide_x()){
+      potions.splice(i, 1)
+      update_score()
+
+        return true
+      }
+
+    };
+    return false
+
+}
+
 function draw_enemy1() {
+
+    let contact = false
 
     enemy = new Image()
     enemy.src = 'images/virus1.png'
-
+    let obj;
     let w = enemy_tile_w;
     let h = enemy_tile_h;
 
@@ -127,18 +190,32 @@ function draw_enemy1() {
             var coordinates = first_wave[item]
             var x = coordinates[0]
             var y = coordinates[1]
+            var collide = check_collision(x, y)
+
+            if(!collide){
             ctx.drawImage(enemy, x, y, w, h)
             //window.requestAnimationFrame(draw_enemy1)
-
-
-        };
+            }
+            else{
+              contact = true
+              obj = item
+              //console.log(`contact detected: ${obj}`)
+            }
+            };
+            if(contact){
+              //console.log(`deleting ${obj}`)
+              delete first_wave[obj]
+              check_win()
+            }
     }
+
 }
 
 function draw_enemy2() {
 
     enemy2 = new Image()
     enemy2.src = 'images/virus2.png'
+    contact = false
 
     let w = enemy_tile_w;
     let h = enemy_tile_h;
@@ -153,19 +230,38 @@ function draw_enemy2() {
             var x = coordinates[0]
             var y = coordinates[1]
 
-            ctx.drawImage(enemy2, x, y, w, h)
-            //window.requestAnimationFrame(draw_enemy2)
-            //x += 45
+            var collide = check_collision(x, y)
+            if(!collide){
+            ctx.drawImage(enemy, x, y, w, h)
+            //window.requestAnimationFrame(draw_enemy1)
+            }
+            else{
+              contact = true
+              obj = item
+              console.log(`contact detected: ${obj}`)
+            }
+            };
+
+            if(contact){
+              console.log(`deleting ${obj}`)
+              delete second_wave[obj]
+              check_win()
+            }
 
 
-        };
+
+
     }
+
 }
 
 function draw_enemy3() {
 
+
+
     enemy3 = new Image()
     enemy3.src = 'images/virus3.png'
+    contact = false
 
     let w = enemy_tile_w;
     let h = enemy_tile_h;
@@ -179,12 +275,26 @@ function draw_enemy3() {
             var x = coordinates[0]
             var y = coordinates[1]
 
-            ctx.drawImage(enemy3, x, y, w, h)
-            //window.requestAnimationFrame(draw_enemy3)
-            //x += 45
+            var collide = check_collision(x, y)
+            if(!collide){
+            ctx.drawImage(enemy, x, y, w, h)
+            //window.requestAnimationFrame(draw_enemy1)
+            }
+            else{
+              contact = true
+              obj = item
+              console.log(`contact detected: ${obj}`)
+            }
 
         };
+        if(contact){
+          console.log(`deleting ${obj}`)
+          delete third_wave[obj]
+          check_win()
+        }
+
     }
+
 }
 /*  -----Player tile ----*/
 
@@ -205,7 +315,7 @@ function draw_ship() {
 
 }
 
-
+/*  THESE items removed from use in favor of a complete screen redraw */
 /* ------------ Clear screen for wbc -----------*/
 function clear_screen_ship() {
     var y = max_up - tile_height / 2
@@ -268,20 +378,6 @@ function move_left() {
 }
 
 
-function draw_laser() {
-    /*  ---- NOTES ------
-     * limit number of shots allowed on screen
-     * remove laser item once it hits the borders of the game screen
-     * check if laser collides with enemy/border on draw/movement
-     * coordinates of enemy are kept in the dictionarys:
-     * first_wave, second_wave, third_wave
-     * the dictionary is what the draw_enemy uses to draw the images
-     * Player image location is stored in:
-     * current_player_x, current_player_y
-     */
-
-}
-
 class Collision {
     /*
      * item_x, item_y
@@ -300,21 +396,77 @@ class Collision {
         this.range_y = range_y
     }
 
-    check_collide() {
+    check_collide_x() {
         /*
          * If the x, y of the class items are within range of each other,
          * return a True for collision detected, False if they are not within range
          */
         var check_x = Math.abs(this.item_x - this.item2_x)
-        var check_y = Math.abs(this.item_y - this.item2_y)
-        if (check_x <= range_x) {
-            return true
-        }
-        if (check_y <= range_y) {
+
+        if (check_x <= this.range_x) {
             return true
         }
         return false
     }
+
+    check_collide_y() {
+        var check_y = Math.abs(this.item_y - this.item2_y)
+        if (check_y <= this.range_y) {
+            return true
+        }
+        return false
+
+    }
+  }
+
+
+
+  function add_potion(){
+    let size = potions.length
+    //potion size is 20 by 20
+    let new_x = current_player_x + tile_width / 2
+    let new_y = current_player_y - 25 //potion height + 5
+    if(size < 5){
+
+
+      let new_potion = [new_x, new_y]
+      potions.push(new_potion)
+
+    }
+  }
+
+  function draw_potions() {
+       let size = potions.length
+       if(size > 0){
+       for(var i = 0; i < size; i ++){
+         let current = potions[i]
+         let potion_x = current[0]
+         let potion_y = current[1]
+         var potion_image = new Image()
+         potion_image.src = "images/potion.png"
+         potion_image.onload = () =>
+         ctx.drawImage(potion_image, potion_x, potion_y, 20, 20)
+       }
+     }
+    }
+
+function move_check_potions(){
+    let min = 20
+    if(potions.length > 0){
+
+    for(let i = 0; i < potions.length; i++){
+      let potion = potions[i]
+      if(potion[1] <= 0){
+        potions.splice(i, 1)
+      }
+      else{
+        potion[1] -= 5
+      }
+
+    };
+    draw_potions()
+  }
+
 }
 
 /*  ----- Enemy Movement ----*/
@@ -339,8 +491,18 @@ function alter_first_wave() {
 
     /*---get current 5th item's x position ---*/
     //var new_enemy = 'new_enemy' + i
-    var current_last_x = first_wave['new_enemy4'][0]
-    var current_first_x = first_wave['new_enemy0'][0]
+    current_first_x = null
+    current_last_x = null
+    let count = 0
+    for(let item in first_wave){
+      var current = first_wave[item]
+      if(count==0){
+        current_first_x = current[0]
+      }
+      current_last_x = current[0]
+      count += 1
+
+    }
     /*  Check the math */
     //console.log(`Last known dalek position on x axis = ${current_last_x}`)
     //console.log(`Maximum calculated movement available = ${max_movement}`)
@@ -380,8 +542,18 @@ function alter_second_wave() {
     var max_movement = my_canvas.width - enemy_tile_w
     /*---get current 5th item's x position ---*/
     //var new_enemy = 'new_enemy' + i
-    var current_last_x = second_wave['new_enemy4'][0]
-    var current_first_x = second_wave['new_enemy0'][0]
+    current_first_x = null
+    current_last_x = null
+    let count = 0
+    for(let item in second_wave){
+      var current = second_wave[item]
+      if(count==0){
+        current_first_x = current[0]
+      }
+      current_last_x = current[0]
+      count += 1
+
+    }
     /*  Check the math */
     //console.log(`Last known virus position on x axis = ${current_last_x}`)
     //console.log(`Maximum calculated movement available = ${max_movement}`)
@@ -424,8 +596,18 @@ function alter_third_wave() {
     var max_movement = my_canvas.width - enemy_tile_w
     /*---get current 5th item's x position ---*/
     //var new_enemy = 'new_enemy' + i
-    var current_last_x = third_wave['new_enemy4'][0]
-    var current_first_x = third_wave['new_enemy0'][0]
+    current_first_x = null
+    current_last_x = null
+    let count = 0
+    for(let item in third_wave){
+      var current = third_wave[item]
+      if(count==0){
+        current_first_x = current[0]
+      }
+      current_last_x = current[0]
+      count += 1
+
+    }
     /*  Check the math */
     //console.log(`Last known enemy position on x axis = ${current_last_x}`)
     //console.log(`Maximum calculated movement available = ${max_movement}`)
@@ -464,10 +646,11 @@ function move_virus() {
 }
 
 function update_enemy() {
-
+    if(!PAUSED){
     draw_enemy1()
     draw_enemy2()
     draw_enemy3()
+  }
 
 }
 
@@ -476,21 +659,29 @@ function update_game() {
     draw_ship()
     move_virus()
     update_enemy()
+    move_check_potions()
 
 
+}
+//--- pause game --//
+function pause(){
+  PAUSED = true;
+  clearInterval(GAME)
 }
 
 //--- RUN GAME ----------//
 function run_game() {
     set_DOM()
     set_enemy_arrays()
-    setInterval(update_game, 200)
-
-
-
-    //test_enemy_arrays()
-
+    GAME = setInterval(update_game, 150)
 }
+function resume(){
+  PAUSED = false;
+  GAME = setInterval(update_game, 150)
+}
+
+
+
 //-------------------------------------//
 //--------onload functions-------------//
 function checksize() {
@@ -513,6 +704,7 @@ function checksize() {
 }
 
 function checkKey(e) {
+    if(!PAUSED){
 
     e = e || window.event;
     //console.log("keydown event")
@@ -532,9 +724,14 @@ function checkKey(e) {
     else {
         //console.log(`${e.code}`)
     }
+  }
 
 }
 //-------- TESTS ------------//
+function test_it(){
+  //win()
+}
+
 function test_keydown() {
     console.log("KEY DOWN")
 
