@@ -6,6 +6,17 @@
     margin: 0;
     font-family: 'MuseoModerno', cursive;
 }
+/* stack overflow link: https://superuser.com/questions/330830/how-to-turn-web-pages-in-browser-into-black-white-grayscale*/
+.grey_scale {
+  /* IE */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+
+  /* Chrome, Safari */
+  -webkit-filter: grayscale(1);
+
+  /* Firefox */
+  filter: grayscale(1);
+}
 
 header {
     background: #136e53;
@@ -50,51 +61,13 @@ header {
     letter-spacing: 2px;
 }
 
-/* BUTTONS */
-#new_game {
 
-    font-size: 2em;
-}
-
-#pause {
-
-    background: transparent;
-
-}
-
-#play {
-
-  background: transparent;
-
-
-}
-
-.title_button {
-  border: 2px solid hotpink;
-  background: transparent;
-  color: #f7f3f3;
-  border-radius: 10%;
-  margin-left: 1ch;
-  font-family: monospace;
-  font-size: 2em;
-  padding: 0;
-  margin: 2px;
-}
 
 #life {
     display: flex;
     background: transparent;
 }
 
-button {
-    border: 2px solid aqua;
-    background: black;
-    color: silver;
-    border-radius: 30%;
-    margin-right: 3ch;
-    font-family: monospace;
-    padding: 10px;
-}
 
 i {
     color: hotpink;
@@ -121,7 +94,7 @@ main {
     z-index: 1;
     align-content: center;
     justify-content: center;
-    margin-top: 8vh;
+    margin: 0;
 }
 
 .screen {
@@ -139,30 +112,82 @@ main {
 }
 
 canvas {
-    margin-top: 28vh;
+    margin-top: 20vh;
     border: 1px solid silver;
     width: 100%;
-    height: 80vh;
+    height: 70vh;
     background: #ea85542e;
     border-right: 10px solid #72fd0959;
     border-left: 10px solid #72fd0959;
-    padding-top: 5vh;
+
     border-bottom: 8px solid #72fd0959;
 }
+/* -------- BUTTONS ----------*/
+button {
+    border: 2px solid aqua;
+    background: black;
+    color: silver;
+    border-radius: 30%;
+    margin-right: 3ch;
+    font-family: monospace;
+    padding: 10px;
+}
+.move {
+  background: transparent;
+  border: none;
+  color: white;
+}
+.white {
+  color: white;
+}
+#color_adapt {
+  border: none;
+  background: transparent;
+  color: white;
+  text-shadow: 1px 1px black;
 
+}
 #mobile_buttons {
     display: flex;
     align-content: center;
     justify-content: center;
     position: fixed;
     z-index: 5;
-    margin-top: -15vh;
+    margin-top: -10vh;
     width: inherit;
 }
 
 #pause_image{
     color: white;
     border-color: aqua;
+}
+#up_button {
+    padding-right: 1ch;
+    padding-left: 1ch;
+}
+
+#new_game {
+    font-size: 2em;
+  }
+
+#pause {
+      background: transparent;
+    }
+
+#play {
+  background: transparent;
+}
+
+.title_button {
+  border: 2px solid hotpink;
+  background: transparent;
+  color: #f7f3f3;
+  border-radius: 10%;
+  margin-left: 1ch;
+  font-family: monospace;
+  font-size: 2em;
+  padding: 0;
+  margin: 2px;
 }
 
 /* GAME OBJECTS */
@@ -174,10 +199,7 @@ canvas {
     border: 2px solid aqua;
 }
 
-#up_button {
-    padding-right: 1ch;
-    padding-left: 1ch;
-}
+
 
 @media all and (max-width: 799px) and (min-width: 220px) {
     main {

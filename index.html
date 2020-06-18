@@ -15,13 +15,14 @@
 
     <title>Space attack</title>
 </head>
-<body>
+<body id='body' value="ON" >
 
     <header>
-        <button id="new_game" class="title_button">NEW</button>
+        <button id="new_game" class="title_button" title="new game">NEW</button>
+        <button id="color_adapt" title="change grey scale of this page"><i id="toggle" class="fas fa-toggle-off fa-2x"></i></button>
         <h1 id="title">Critical Space Strike</h1>
-          <button id="pause" class="title_button" label="pause game"><i class="far fa-pause-circle" id="pause_image"></i></button>
-          <button id="play" class="title_button" label="play or resume game"><i class="far fa-play-circle"></i></button>
+          <button id="pause" title="pause game" class="title_button" label="pause game"><i class="far fa-pause-circle" id="pause_image"></i></button>
+          <button id="play" title="play game" class="title_button" label="play or resume game"><i class="far fa-play-circle"></i></button>
     </header>
     <div id="lives">
 
@@ -41,10 +42,10 @@
         </div>
         <div id="mobile_buttons">
 
-            <button class="move" onclick="move_left()">left</button>
-            <button class="move" id="up_button" onclick="move_up()">up</button>
-            <button class="move" onclick="move_down()">down</button>
-            <button class="move" onclick="move_right()">right</button>
+            <button class="move" onclick="move_left()" title="left"><i class="fas fa-arrow-left white fa-2x"></i></button>
+            <button class="move" onclick="move_up()" title="up"><i class="fas fa-arrow-up white fa-2x"></i></button>
+            <button class="move" onclick="move_down()" title="down"><i class="fas fa-arrow-down white fa-2x"></i></button>
+            <button class="move" onclick="move_right()" title="right"><i class="fas fa-arrow-right white fa-2x"></i></button>
 
 
         </div>

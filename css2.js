@@ -35,10 +35,10 @@ var direction_third = 1
 function set_DOM() {
     my_canvas = document.getElementById("myCanvas");
 
-    tile_height = 30;
-    tile_width = 40;
-    enemy_tile_h = 25;
-    enemy_tile_w = 20;
+    tile_height = 20;
+    tile_width = 30;
+    enemy_tile_h = 15;
+    enemy_tile_w = 15;
     ctx = my_canvas.getContext("2d");
     max_right = my_canvas.width - tile_width; // width - width of player tile
     max_left = 0;
@@ -484,7 +484,7 @@ function update_game() {
 function run_game() {
     set_DOM()
     set_enemy_arrays()
-    setInterval(update_game, 500)
+    setInterval(update_game, 200)
 
 
 
@@ -571,19 +571,46 @@ function test_collison() {
     console.log(test1.test_)
 
 }
+/* accessability */
+function change_scale(){
+  let element = document.getElementById('body')
+  let mode = element.value
+  let toggle = document.getElementById('toggle')
+  console.log(mode)
+  if(mode == 'ON'){
+    //MDN : div.classList.add("anotherclass");
+    element.classList.add('grey_scale')
+    element.value = 'OFF'
+    toggle.className = ''
+    toggle.classList.add("fas", "fa-toggle-off", "fa-2x")
+
+  }
+  else{
+    element.classList.remove('grey_scale')
+    element.value = 'ON'
+    toggle.className = ''
+    //<i class="fas fa-toggle-on"></i>
+    toggle.classList.add("fas", "fa-toggle-on", "fa-2x")
+
+  }
+}
 
 //---------- EVENT listeners, PAGE load -----------//
 function set_EventListeners() {
     //start button
     //pause button
     //stop button
+    let adaptor = document.getElementById('color_adapt')
 
     document.addEventListener('keydown', checkKey);
     window.addEventListener('resize', checksize);
+    adaptor.addEventListener('click', change_scale);
+
 
 
 
 }
+
 
 
 
