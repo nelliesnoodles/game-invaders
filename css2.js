@@ -238,12 +238,12 @@ function draw_enemy2() {
             else{
               contact = true
               obj = item
-              console.log(`contact detected: ${obj}`)
+              //console.log(`contact detected: ${obj}`)
             }
             };
 
             if(contact){
-              console.log(`deleting ${obj}`)
+              //console.log(`deleting ${obj}`)
               delete second_wave[obj]
               check_win()
             }
@@ -283,12 +283,12 @@ function draw_enemy3() {
             else{
               contact = true
               obj = item
-              console.log(`contact detected: ${obj}`)
+              //console.log(`contact detected: ${obj}`)
             }
 
         };
         if(contact){
-          console.log(`deleting ${obj}`)
+          //console.log(`deleting ${obj}`)
           delete third_wave[obj]
           check_win()
         }
@@ -663,6 +663,11 @@ function update_game() {
 
 
 }
+//---  reset game ---//
+function reset(){
+location.reload();
+return false;
+};
 //--- pause game --//
 function pause(){
   PAUSED = true;
@@ -721,13 +726,22 @@ function checkKey(e) {
     else if (e.code === 'ArrowLeft') {
         move_left()
     }
+    else if (e.key === 'f'){
+        add_potion()
+    }
+
+
     else {
-        //console.log(`${e.code}`)
+        //console.log(`${e.code} ${e.key}`)
     }
   }
 
 }
+
+//         -----              //
 //-------- TESTS ------------//
+//         -----              //
+
 function test_it(){
   //win()
 }
@@ -773,7 +787,7 @@ function change_scale(){
   let element = document.getElementById('body')
   let mode = element.value
   let toggle = document.getElementById('toggle')
-  console.log(mode)
+  //console.log(mode)
   if(mode == 'ON'){
     //MDN : div.classList.add("anotherclass");
     element.classList.add('grey_scale')

@@ -156,7 +156,7 @@ button {
     padding: 10px;
 }
 .move {
-  background: transparent;
+  background: black;
   border: none;
   color: white;
 }
@@ -178,6 +178,7 @@ button {
     z-index: 5;
     margin-top: -10vh;
     width: inherit;
+
 }
 
 #pause_image{
@@ -213,14 +214,11 @@ button {
   margin: 2px;
 }
 
-/* GAME OBJECTS */
-.laser {
-    width: 5px;
-    height: 8px;
-    color: red;
-    background: red;
-    border: 2px solid aqua;
-}
+
+/* --------*/
+/* MOBILE */
+/* --------*/
+
 
 
 
