@@ -32,7 +32,8 @@ var direction_third = 1
 let potions = []
 let GAME;
 let PAUSED = false;
-var score = 0
+var score = 0;
+
 
 
 
@@ -41,8 +42,8 @@ var score = 0
 function set_DOM() {
     my_canvas = document.getElementById("myCanvas");
 
-    tile_height = 20;
-    tile_width = 30;
+    tile_height = 30;
+    tile_width = 20;
     enemy_tile_h = 15;
     enemy_tile_w = 15;
     ctx = my_canvas.getContext("2d");
@@ -58,7 +59,9 @@ function set_DOM() {
         second_wave[new_enemy] = []
         third_wave[new_enemy] = []
 
-    }
+    };
+
+
     //stackoverflow link: https://stackoverflow.com/questions/21139826/requestanimationframe-method-is-not-working
     window.requestAnimationFrame =
            window.requestAnimationFrame ||
@@ -172,19 +175,19 @@ function check_collision(enemy_x, enemy_y){
 }
 
 function draw_enemy1() {
-
+    //console.log('draw_enemy1')
     let contact = false
 
     enemy = new Image()
     enemy.src = 'images/virus1.png'
+
     let obj;
     let w = enemy_tile_w;
     let h = enemy_tile_h;
 
-
-
     //clear_screen_first_wave()
     enemy.onload = () => {
+      //console.log('enemy image loaded')
         for (var item in first_wave) {
 
             var coordinates = first_wave[item]
@@ -193,6 +196,7 @@ function draw_enemy1() {
             var collide = check_collision(x, y)
 
             if(!collide){
+              //console.log('ctx drawing image')
             ctx.drawImage(enemy, x, y, w, h)
             //window.requestAnimationFrame(draw_enemy1)
             }
@@ -208,6 +212,7 @@ function draw_enemy1() {
               check_win()
             }
     }
+
 
 }
 
@@ -445,7 +450,7 @@ class Collision {
          var potion_image = new Image()
          potion_image.src = "images/potion.png"
          potion_image.onload = () =>
-         ctx.drawImage(potion_image, potion_x, potion_y, 20, 20)
+         ctx.drawImage(potion_image, potion_x, potion_y, 15, 15)
        }
      }
     }
@@ -673,16 +678,28 @@ function pause(){
   PAUSED = true;
   clearInterval(GAME)
 }
+//--- unhide start game ----//
+function start_new(){
+  let board = document.getElementById('hide_show')
+  let start_screen = document.getElementById('play_screen')
+  start_screen.style.display = 'none';
+  board.style.display = 'block';
+
+}
 
 //--- RUN GAME ----------//
 function run_game() {
-    set_DOM()
+    start_new()
     set_enemy_arrays()
-    GAME = setInterval(update_game, 150)
+    GAME = setInterval(update_game, 400)
 }
+
+//---- Play/Resume game --//
 function resume(){
+  if(PAUSED == true){
   PAUSED = false;
-  GAME = setInterval(update_game, 150)
+  GAME = setInterval(update_game, 400)
+}
 }
 
 
@@ -812,10 +829,12 @@ function set_EventListeners() {
     //pause button
     //stop button
     let adaptor = document.getElementById('color_adapt')
+    let begin_game = document.getElementById('start_game')
 
     document.addEventListener('keydown', checkKey);
     window.addEventListener('resize', checksize);
     adaptor.addEventListener('click', change_scale);
+    begin_game.addEventListener('click', run_game);
 
 
 
@@ -826,7 +845,7 @@ function set_EventListeners() {
 
 
 window.addEventListener('load', (event) => {
-    //set_DOM() <-- Moved to <run_game()>
+    set_DOM()
     set_EventListeners()
-    run_game()
+    //run_game()
 });
