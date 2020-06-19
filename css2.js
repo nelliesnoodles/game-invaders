@@ -33,9 +33,21 @@ let potions = []
 let GAME;
 let PAUSED = false;
 var score = 0;
+let virus1;
 
+// reddit link: https://www.reddit.com/r/learnjavascript/comments/bgm5q5/canvas_drawimage_flickering/
+//flicker reduction help link: https://jsfiddle.net/sw4w8qnu/
+function loadImage(path) {
+    let image = new Image();
+    let promise = new Promise((resolve, reject) => {
+      image.onload = () => resolve(image);
+      image.onerror = reject;
+    });
+    image.src = path;
+    return promise;
+  }
 
-
+  //let arrow = await loadImage('http://i.imgur.com/U4hfvaH.png'); // points right
 
 //-------- Set up functions ----------
 
@@ -60,6 +72,7 @@ function set_DOM() {
         third_wave[new_enemy] = []
 
     };
+    virus1 = loadImage('images/virus1.png')
 
 
     //stackoverflow link: https://stackoverflow.com/questions/21139826/requestanimationframe-method-is-not-working
@@ -212,6 +225,30 @@ function draw_enemy1() {
               check_win()
             }
     }
+    /*  CAN't GEt image preloaded to stop flicker and still animate.
+    for (var item in first_wave) {
+
+        var coordinates = first_wave[item]
+        var x = coordinates[0]
+        var y = coordinates[1]
+        var collide = check_collision(x, y)
+
+        if(!collide){
+          //console.log('ctx drawing image')
+        ctx.drawImage(virus1, x, y, w, h)
+        //window.requestAnimationFrame(draw_enemy1)
+        }
+        else{
+          contact = true
+          obj = item
+          //console.log(`contact detected: ${obj}`)
+        }
+        };
+        if(contact){
+          //console.log(`deleting ${obj}`)
+          delete first_wave[obj]
+          check_win()
+        }*/
 
 
 }
@@ -636,7 +673,7 @@ function alter_third_wave() {
 }
 
 function clear_loop(){
-  ctx.fillStyle = 'black';
+  ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
   ctx.clearRect(0, 0, my_canvas.width, my_canvas.height);
   ctx.fillRect(0, 0, my_canvas.width, my_canvas.height);
 }
