@@ -17,7 +17,7 @@ let max_right;
 let max_left;
 let max_up;
 let max_down;
-const enemy_speed = 1;
+const enemy_speed = 3;
 var current_player_x;
 var current_player_y;
 /* Enemy arrays for movement/image placement */
@@ -34,16 +34,21 @@ let GAME;
 let PAUSED = false;
 var score = 0;
 let virus1;
+let virus2;
+let virus3;
+let player;
 
 // reddit link: https://www.reddit.com/r/learnjavascript/comments/bgm5q5/canvas_drawimage_flickering/
 //flicker reduction help link: https://jsfiddle.net/sw4w8qnu/
 function loadImage(path) {
-    let image = new Image();
+    let image = new Image;
     let promise = new Promise((resolve, reject) => {
       image.onload = () => resolve(image);
       image.onerror = reject;
+
     });
     image.src = path;
+
     return promise;
   }
 
@@ -72,16 +77,14 @@ function set_DOM() {
         third_wave[new_enemy] = []
 
     };
-    virus1 = loadImage('images/virus1.png')
-
-
-    //stackoverflow link: https://stackoverflow.com/questions/21139826/requestanimationframe-method-is-not-working
-    window.requestAnimationFrame =
-           window.requestAnimationFrame ||
-           window.mozRequestAnimationFrame ||
-           window.webkitRequestAnimationFrame ||
-           window.msRequestAnimationFrame;
-
+    virus1 = new Image
+    virus1.src = 'images/virus1.png'
+    virus2 = new Image
+    virus2.src = 'images/virus2.png'
+    virus3 = new Image
+    virus3.src = 'images/virus3.png'
+    player = new Image
+    player.src = 'images/player.png'
 
 }
 
@@ -187,19 +190,21 @@ function check_collision(enemy_x, enemy_y){
 
 }
 
+//-- *ENEMY DRAW --
+
 function draw_enemy1() {
     //console.log('draw_enemy1')
     let contact = false
 
-    enemy = new Image()
-    enemy.src = 'images/virus1.png'
-
+    //enemy = new Image()
+    //enemy.src = 'images/virus1.png'
+    //console.log(` virus 1 = ${virus1}`)
     let obj;
     let w = enemy_tile_w;
     let h = enemy_tile_h;
 
     //clear_screen_first_wave()
-    enemy.onload = () => {
+    //enemy.onload = () => {
       //console.log('enemy image loaded')
         for (var item in first_wave) {
 
@@ -210,7 +215,7 @@ function draw_enemy1() {
 
             if(!collide){
               //console.log('ctx drawing image')
-            ctx.drawImage(enemy, x, y, w, h)
+            ctx.drawImage(virus1, x, y, w, h)
             //window.requestAnimationFrame(draw_enemy1)
             }
             else{
@@ -224,7 +229,7 @@ function draw_enemy1() {
               delete first_wave[obj]
               check_win()
             }
-    }
+    //}
     /*  CAN't GEt image preloaded to stop flicker and still animate.
     for (var item in first_wave) {
 
@@ -253,10 +258,11 @@ function draw_enemy1() {
 
 }
 
+
+
 function draw_enemy2() {
 
-    enemy2 = new Image()
-    enemy2.src = 'images/virus2.png'
+
     contact = false
 
     let w = enemy_tile_w;
@@ -265,7 +271,7 @@ function draw_enemy2() {
 
 
     //clear_screen_second_wave()
-    enemy2.onload = () => {
+    //enemy2.onload = () => {
         for (var item in second_wave) {
             var coordinates = second_wave[item]
 
@@ -274,7 +280,7 @@ function draw_enemy2() {
 
             var collide = check_collision(x, y)
             if(!collide){
-            ctx.drawImage(enemy2, x, y, w, h)
+            ctx.drawImage(virus2, x, y, w, h)
             //window.requestAnimationFrame(draw_enemy1)
             }
             else{
@@ -289,20 +295,14 @@ function draw_enemy2() {
               delete second_wave[obj]
               check_win()
             }
-
-
-
-
-    }
+  //}
 
 }
 
+
+
 function draw_enemy3() {
 
-
-
-    enemy3 = new Image()
-    enemy3.src = 'images/virus3.png'
     contact = false
 
     let w = enemy_tile_w;
@@ -311,7 +311,7 @@ function draw_enemy3() {
 
 
     //clear_screen_third_wave()
-    enemy3.onload = () => {
+    //enemy3.onload = () => {
         for (var item in third_wave) {
             var coordinates = third_wave[item]
             var x = coordinates[0]
@@ -319,7 +319,7 @@ function draw_enemy3() {
 
             var collide = check_collision(x, y)
             if(!collide){
-            ctx.drawImage(enemy3, x, y, w, h)
+            ctx.drawImage(virus3, x, y, w, h)
             //window.requestAnimationFrame(draw_enemy1)
             }
             else{
@@ -335,7 +335,7 @@ function draw_enemy3() {
           check_win()
         }
 
-    }
+    //}
 
 }
 /*  -----Player tile ----*/
@@ -344,16 +344,15 @@ function draw_ship() {
     //clear_screen_ship()
     my_canvas = document.getElementById("myCanvas")
     ctx = my_canvas.getContext("2d")
-    ship_image = new Image()
-    ship_image.src = 'images/wbc2.png'
+
     let x = current_player_x
     let y = current_player_y
     let w = tile_width;
     let h = tile_height;
-    ship_image.onload = () => {
-        ctx.drawImage(ship_image, x, y, w, h);
+
+    ctx.drawImage(player, x, y, w, h);
         //window.requestAnimationFrame(draw_ship)
-    }
+
 
 }
 
