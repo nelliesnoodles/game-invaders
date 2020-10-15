@@ -17,7 +17,7 @@ let max_right;
 let max_left;
 let max_up;
 let max_down;
-const enemy_speed = 3;
+let enemy_speed = 1;
 var current_player_x;
 var current_player_y;
 /* Enemy arrays for movement/image placement */
@@ -227,6 +227,7 @@ function draw_enemy1() {
             if(contact){
               //console.log(`deleting ${obj}`)
               delete first_wave[obj]
+              enemy_speed += 1
               check_win()
             }
     //}
@@ -293,6 +294,7 @@ function draw_enemy2() {
             if(contact){
               //console.log(`deleting ${obj}`)
               delete second_wave[obj]
+              enemy_speed += 1
               check_win()
             }
   //}
@@ -332,10 +334,20 @@ function draw_enemy3() {
         if(contact){
           //console.log(`deleting ${obj}`)
           delete third_wave[obj]
+          enemy_speed += 1
           check_win()
         }
 
     //}
+
+}
+
+function enemy_fire(){
+  //pass
+  //Add a diagonal shifting enemy damgage like item.
+  // So it fires diagonally at different intervals down the screen toward
+  //player.   As speed increases on enemy, laser/damage item should speed up too
+  // if player is hit, they lose a life, if all lives are gone, game over.  
 
 }
 /*  -----Player tile ----*/
