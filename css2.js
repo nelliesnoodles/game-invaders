@@ -17,7 +17,10 @@ let max_right;
 let max_left;
 let max_up;
 let max_down;
+let defaultX = 50;
+let defaultY = 0;
 let enemy_speed = 1;
+let fallspeed = 5;
 var current_player_x;
 var current_player_y;
 /* Enemy arrays for movement/image placement */
@@ -25,18 +28,24 @@ var first_wave = {};
 var second_wave = {};
 var third_wave = {};
 /* direction variable helps determine the horizontal direction the enemies move*/
-var direction_first = 1
-var direction_second = -1
-var direction_third = 1
+var direction_first = 1;
+var direction_second = -1;
+var direction_third = 1;
 /* potions, or attack method items */
-let potions = []
+let potions = [];
+let attack_array = [];
+let max_rnaX;
+let max_rnaY;
 let GAME;
 let PAUSED = false;
 var score = 0;
+//-- IMAGES/SPRITES
 let virus1;
 let virus2;
 let virus3;
 let player;
+let antibody;
+let rna;
 
 // reddit link: https://www.reddit.com/r/learnjavascript/comments/bgm5q5/canvas_drawimage_flickering/
 //flicker reduction help link: https://jsfiddle.net/sw4w8qnu/
@@ -68,8 +77,13 @@ function set_DOM() {
     max_left = 0;
     max_up = 100;
     max_down = my_canvas.height - tile_height;
+    max_rnaX = my_canvas.width
+    max_rnaY = my_canvas.height
     current_player_x = max_right / 2
     current_player_y = 110
+    //set enemy_attack array up
+    set_RNA()
+    //set enemy image arrays into objects
     for (i = 0; i < 5; i++) {
         var new_enemy = 'new_enemy' + i
         first_wave[new_enemy] = []
@@ -77,6 +91,8 @@ function set_DOM() {
         third_wave[new_enemy] = []
 
     };
+    // preload images to remove flicker that happens if they
+    // are loaded on each redraw
     virus1 = new Image
     virus1.src = 'images/virus1.png'
     virus2 = new Image
@@ -85,6 +101,10 @@ function set_DOM() {
     virus3.src = 'images/virus3.png'
     player = new Image
     player.src = 'images/player.png'
+    antibody = new Image
+    antibody.src = 'images/potion.png'
+    rna = new Image
+    rna.src = 'images/RNA.png'
 
 }
 
@@ -342,14 +362,6 @@ function draw_enemy3() {
 
 }
 
-function enemy_fire(){
-  //pass
-  //Add a diagonal shifting enemy damgage like item.
-  // So it fires diagonally at different intervals down the screen toward
-  //player.   As speed increases on enemy, laser/damage item should speed up too
-  // if player is hit, they lose a life, if all lives are gone, game over.  
-
-}
 /*  -----Player tile ----*/
 
 function draw_ship() {
@@ -495,13 +507,11 @@ class Collision {
          let current = potions[i]
          let potion_x = current[0]
          let potion_y = current[1]
-         var potion_image = new Image()
-         potion_image.src = "images/potion.png"
-         potion_image.onload = () =>
-         ctx.drawImage(potion_image, potion_x, potion_y, 15, 15)
-       }
-     }
-    }
+         ctx.drawImage(antibody, potion_x, potion_y, 15, 15)
+
+     };
+   }
+}
 
 function move_check_potions(){
     let min = 20
@@ -520,6 +530,71 @@ function move_check_potions(){
     draw_potions()
   }
 
+}
+
+function check_move_rna(){
+  // DOM set for ctx sizes
+  //max_right;
+  //max_left;
+  //max_up;
+  //max_down;
+  //default startX
+  defaultX = Math.floor(Math.random() * max_rnaX) + 1
+  defaultY = Math.floor(Math.random() * 100) + 1
+  index_count = 0
+  length_of_rna = attack_array.length
+  for (i=0; i < length_of_rna; i++){
+    item = attack_array[i]
+    oldX = item[0]
+    oldY = item[1]
+    newX = oldX + fallspeed
+    newY = oldY + fallspeed
+    if(newX < max_rnaX && newY < max_rnaY){
+      attack_array[i][0] = newX
+      attack_array[i][1] = newY
+    }
+    else {
+      //replace item
+
+      newDefaultX = defaultX + 50
+      newDefaultY = defaultY + 20
+      if (newDefaultX > 150){
+        defaultX = 0
+      }
+      else {
+        defaultX = newDefaultX
+      }
+      attack_array[i][0] = defaultX
+      if (newDefaultY > 60){
+        defaultY = 0
+      }
+      else {
+        defaultY = newDefaultY
+      }
+      attack_array[i][1] = defaultY
+
+
+    }
+  }
+  draw_rna()
+
+
+}
+
+function draw_rna(){
+  length_of = attack_array.length
+  //console.log('attack_array length = ', length_of)
+  if(length_of > 0){
+  for(i=0; i< length_of; i++){
+      item = attack_array[i]
+      //console.log('item in array = ', item)
+
+      rnaX = item[0]
+      rnaY = item[1]
+      //console.log('x, y of rna = ', rnaX, rnaY)
+      ctx.drawImage(rna, rnaX, rnaY, 18, 18)
+  };
+}
 }
 
 /*  ----- Enemy Movement ----*/
@@ -683,6 +758,24 @@ function alter_third_wave() {
 
 }
 
+function set_RNA(){
+  // default beginning coordinates for RNA, or enemy fire
+  // if a player is hit by RNA, it removes one of thier lives.
+  index_X = [10, 50, 200]
+  index_Y = [20, 40, 60]
+
+
+  for(i=0; i<3; i++){
+    //preset x, y coordinates of rna image
+    x = index_X[i]
+    y = index_Y[i]
+    //put these default values in attack_array
+    new_rna = [x, y]
+    attack_array.push(new_rna)
+  };
+
+}
+
 function clear_loop(){
   ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
   ctx.clearRect(0, 0, my_canvas.width, my_canvas.height);
@@ -713,13 +806,14 @@ function update_game() {
     move_virus()
     update_enemy()
     move_check_potions()
-
-
+    check_move_rna()
 }
+
+
 //---  reset game ---//
 function reset(){
-location.reload();
-return false;
+  location.reload();
+  return false;
 };
 //--- pause game --//
 function pause(){
@@ -888,6 +982,7 @@ function set_EventListeners() {
 
 
 }
+
 
 
 
