@@ -176,6 +176,7 @@ function win(){
   let element_main = document.getElementById("main")
   element_hidden.style.display = 'flex';
   element_main.style.display = 'none';
+  clearInterval(GAME)
 
 }
 
