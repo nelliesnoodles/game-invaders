@@ -21,6 +21,7 @@ let defaultX = 50;
 let defaultY = 0;
 let enemy_speed = 1;
 let fallspeed = 5;
+let PAUSE_STOP = 0;
 var current_player_x;
 var current_player_y;
 /* Enemy arrays for movement/image placement */
@@ -178,6 +179,17 @@ function win(){
 
 }
 
+function game_over(){
+  let element_hidden = document.getElementById("hidden2")
+  let endscore = document.getElementById('endScore')
+  newinner = endscore.innerHTML + score
+  endscore.innerHTML = newinner
+  let element_main = document.getElementById("main")
+  element_hidden.style.display = 'flex';
+  element_main.style.display = 'none';
+  clearInterval(GAME)
+}
+
 function check_win(){
   let first = isEmpty(first_wave)
   let second = isEmpty(second_wave)
@@ -207,6 +219,27 @@ function check_collision(enemy_x, enemy_y){
 
     };
     return false
+
+}
+
+function flash_life(element){
+  element.classList.add('fa-4x')
+}
+
+
+function check_damage(viral_X, viral_Y){
+  diff = 5
+  let posx = current_player_x - diff
+  let posy = current_player_y + diff
+  let virX = viral_X - diff
+  let virY = viral_Y + diff
+  let distanceX = Math.abs(posx - virX)
+  let distanceY = Math.abs(posy - virY)
+  if (distanceX < 12 && distanceY < 9){
+    return true
+  }
+  return false
+
 
 }
 
@@ -581,9 +614,48 @@ function check_move_rna(){
 
 }
 
+function update_life(){
+  let nodes = [...document.getElementsByClassName('lifenode')]
+  let parent = document.getElementById('life')
+  //console.log(nodes)
+  let size = nodes.length - 1
+  //console.log('size = ', size)
+  if(size > 0){
+    pause_interval()
+    child = nodes.pop()
+    parent.removeChild(child)
+
+  }
+  else {
+    game_over()
+  }
+}
+
+function pass(){
+  PAUSE_STOP += 1
+  SCREEN = document.getElementById('myCanvas')
+
+  if(PAUSE_STOP > 3){
+    clearInterval(NEWINTERVAL)
+    PAUSE_STOP = 0
+    SCREEN.style.border = 'none'
+    resume()
+  }
+}
+
+
+function pause_interval(val=0){
+    pause()
+    SCREEN = document.getElementById('myCanvas')
+    SCREEN.style.border = '10px solid red'
+    NEWINTERVAL = setInterval(pass, 80)
+
+  }
+
 function draw_rna(){
   length_of = attack_array.length
   //console.log('attack_array length = ', length_of)
+
   if(length_of > 0){
   for(i=0; i< length_of; i++){
       item = attack_array[i]
@@ -591,8 +663,21 @@ function draw_rna(){
 
       rnaX = item[0]
       rnaY = item[1]
+      collison = check_damage(rnaX, rnaY)
       //console.log('x, y of rna = ', rnaX, rnaY)
-      ctx.drawImage(rna, rnaX, rnaY, 18, 18)
+      if(!collison){
+      ctx.drawImage(rna, rnaX, rnaY, 10, 10)
+      }
+      else{
+        //update_viral()
+        update_life()
+        //this item is a collison, update add new coordinates.
+        defaultX = Math.floor(Math.random() * max_rnaX) + 1
+        defaultY = Math.floor(Math.random() * 100) + 1
+        attack_array[i][0] = defaultX
+        attack_array[i][1] = defaultY
+        //console.log('viral load collision!')
+      }
   };
 }
 }
@@ -825,6 +910,8 @@ function start_new(){
   let board = document.getElementById('hide_show')
   let start_screen = document.getElementById('play_screen')
   start_screen.style.display = 'none';
+  let hidden = document.getElementById('hidden2');
+  hidden.style.display = 'none';
   board.style.display = 'block';
 
 }

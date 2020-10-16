@@ -73,8 +73,8 @@ header {
 
 
 i {
-    color: hotpink;
-    border-color: brown;
+    color: red;
+    border-color: blue;
     padding: 5px;
 }
 
@@ -100,6 +100,47 @@ h1 {
   color: white;
   font-size: 3em;
   background: transparent;
+}
+#hidden2 {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  height: 100vh;
+  width: 100vw;
+  margin-top: 10vh;
+  color: white;
+  font-size: 2em;
+  background: transparent;
+
+}
+
+.flexbox-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 33vw;
+  margin-left: 33vw;
+}
+.GameOVER {
+
+  color: limegreen;
+  text-shadow: 1px 1px white;
+  font-size: 0.8em;
+  text-align: center;
+  width: 100%;
+  background: black;
+
+}
+.endScore {
+  color: limegreen;
+  text-shadow: 1px 1px white;
+  font-size: 1em;
+  text-align: center;
+  width: 100%;
+  background: black;
+
 }
 
 .winner {
@@ -293,6 +334,9 @@ button {
 
     #mobile_buttons {
         padding: none;
+    }
+    .GameOVER {
+      font-size: 1em;
     }
 }
 
