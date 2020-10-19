@@ -973,7 +973,7 @@ function checkKey(e) {
     else if (e.code === 'ArrowLeft') {
         move_left()
     }
-    else if (e.key === 'f'){
+    else if (e.code === 'Space'){
         add_potion()
     }
 
